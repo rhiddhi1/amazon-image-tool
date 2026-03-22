@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Amazon Image Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-2xl shadow-lg text-center w-[400px]">
+      <h1 class="text-2xl font-bold mb-4">Amazon Image Tool</h1>
+
+      <input type="file" id="fileInput" class="mb-4" />
+
+      <button
+        id="processBtn"
+        onclick="uploadImage()"
+        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+      >
+        Process Image
+      </button>
+
+      <p id="status" class="mt-4 text-sm text-gray-500"></p>
+
+      <img id="preview" class="mt-4 rounded-lg shadow" />
+
+      <a
+        id="downloadLink"
+        class="hidden mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg"
+      >
+        Download Image
+      </a>
+    </div>
+
+    <script>
+      async function uploadImage() {
+        const fileInput = document.getElementById("fileInput");
+        const file = fileInput.files[0];
+        const status = document.getElementById("status");
+        const btn = document.getElementById("processBtn"); // 👈 ADD THIS
+
+        if (!file) {
+          alert("Please select a file");
+          return;
+        }
+
+        // 👇 DISABLE BUTTON
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+
+        status.innerText = "Processing...";
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+          const response = await fetch("/process/", {
+            method: "POST",
+            body: formData,
+          });
+
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+
+          document.getElementById("preview").src = url;
+
+          const downloadLink = document.getElementById("downloadLink");
+          downloadLink.href = url;
+          downloadLink.download = "processed.jpg";
+          downloadLink.classList.remove("hidden");
+
+          status.innerText = "Done ✅";
+        } catch (error) {
+          status.innerText = "Something went wrong ❌";
+        }
+
+        // 👇 ENABLE BUTTON AGAIN
+        btn.disabled = false;
+        btn.innerText = "Process Image";
+      }
+    </script>
+  </body>
+</html>
