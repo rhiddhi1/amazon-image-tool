@@ -1,38 +1,47 @@
 from PIL import Image
 import io
-from fastapi.responses import StreamingResponse
+from fastapi.responses import Response
 
 async def process_image_logic(file):
-    from rembg import remove
+    from rembg import remove  # lazy import (important for Render)
 
     contents = await file.read()
 
-    # Remove background
+    # Step 1: Remove background
     removed_bg = remove(contents)
 
-    # Open image with transparency
+    # Step 2: Open image with transparency
     image = Image.open(io.BytesIO(removed_bg)).convert("RGBA")
 
-    # Maintain aspect ratio
+    # Step 3: Maintain aspect ratio
     max_size = (1000, 1000)
     image.thumbnail(max_size)
 
-    # White background
+    # Step 4: Create white background
     background = Image.new("RGB", (1000, 1000), (255, 255, 255))
-    img_width, img_height = image.size
-    offset = ((background.width - img_width) // 2, (background.height - img_height) // 2)
-    background.paste(image, offset, mask=image)  # important: mask=image for transparency
 
-    # Save to BytesIO properly
+    img_width, img_height = image.size
+    offset = (
+        (background.width - img_width) // 2,
+        (background.height - img_height) // 2
+    )
+
+    # Paste with transparency mask
+    background.paste(image, offset, mask=image)
+
+    # Step 5: Save to BytesIO
     output = io.BytesIO()
     background.save(output, format="JPEG")
-    output.seek(0)  # important to reset pointer
+    output.seek(0)
 
-    # Return StreamingResponse
-    return StreamingResponse(
-        output,
+    # Step 6: Convert to bytes (IMPORTANT FIX)
+    output_bytes = output.getvalue()
+
+    # Step 7: Return proper response (no corruption)
+    return Response(
+        content=output_bytes,
         media_type="image/jpeg",
         headers={
-            "Content-Disposition": f"attachment; filename=processed_{file.filename}.jpg"
+            "Content-Disposition": "attachment; filename=processed.jpg"
         }
     )
