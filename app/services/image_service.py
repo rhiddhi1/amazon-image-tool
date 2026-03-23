@@ -1,42 +1,50 @@
+# app/services/image_service.py
+from fastapi.responses import StreamingResponse
 from PIL import Image
 import io
-from fastapi.responses import Response
 
 async def process_image_logic(file):
+    """
+    Handles image upload, resizes it, maintains aspect ratio, and outputs a
+    safe PNG/JPEG file that works in Preview/browser.
+    """
+
     contents = await file.read()
+    input_stream = io.BytesIO(contents)
 
-    # Open original image
-    image = Image.open(io.BytesIO(contents)).convert("RGB")
+    try:
+        # Open input image (Pillow handles JPEG, PNG, GIF, WebP, etc.)
+        image = Image.open(input_stream)
+        image_format = image.format  # Keep original format if needed
 
-    # Maintain aspect ratio
-    max_size = (1000, 1000)
-    image.thumbnail(max_size)
+        # Convert to RGBA to handle transparency
+        if image.mode != "RGBA":
+            image = image.convert("RGBA")
 
-    # Create white background (Amazon style)
-    background = Image.new("RGB", (1000, 1000), (255, 255, 255))
+        # Resize while maintaining aspect ratio
+        max_size = (1000, 1000)
+        image.thumbnail(max_size)
 
-    img_width, img_height = image.size
-    offset = (
-        (background.width - img_width) // 2,
-        (background.height - img_height) // 2
-    )
+        # White background for flattening transparent images
+        background = Image.new("RGB", image.size, (255, 255, 255))
+        background.paste(image, mask=image)  # mask=image keeps transparency
 
-    # Paste image on white background
-    background.paste(image, offset)
+        # Save to BytesIO
+        output = io.BytesIO()
+        # Always save as PNG to avoid corruption
+        output_format = "PNG"
+        background.save(output, format=output_format)
+        output.seek(0)
 
-    # Save to BytesIO
-    output = io.BytesIO()
-    background.save(output, format="JPEG")
-    output.seek(0)
+        return StreamingResponse(
+            output,
+            media_type=f"image/{output_format.lower()}",
+            headers={
+                "Content-Disposition": f"attachment; filename=processed_{file.filename}.{output_format.lower()}"
+            }
+        )
 
-    # Convert to bytes
-    output_bytes = output.getvalue()
-
-    # Return response
-    return Response(
-        content=output_bytes,
-        media_type="image/jpeg",
-        headers={
-            "Content-Disposition": "attachment; filename=processed.jpg"
-        }
-    )
+    except Exception as e:
+        # Optional: log error
+        print("Image processing error:", e)
+        return {"error": "Failed to process image. Make sure it is a valid image file."}
