@@ -1,9 +1,10 @@
 from PIL import Image
 import io
 from fastapi.responses import StreamingResponse
-from rembg import remove
 
 async def process_image_logic(file):
+    from rembg import remove
+
     contents = await file.read()
 
     # Remove background
