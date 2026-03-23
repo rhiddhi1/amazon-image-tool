@@ -1,52 +1,99 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Amazon Image Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-2xl shadow-lg text-center w-[400px]">
-      <h1 class="text-2xl font-bold mb-4">Amazon Image Tool</h1>
+  <body
+    class="bg-gray-50 min-h-screen flex flex-col items-center justify-center font-sans"
+  >
+    <!-- Container -->
+    <div
+      class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md text-center"
+    >
+      <!-- Headline -->
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">
+        Fix Your Amazon Product Images
+      </h1>
+      <p class="text-gray-500 mb-6">
+        Resize, center, and add white background instantly. Free & no signup.
+      </p>
 
-      <input type="file" id="fileInput" class="mb-4" />
+      <!-- File Input -->
+      <label class="block mb-4">
+        <input
+          type="file"
+          id="fileInput"
+          class="hidden"
+          onchange="showFileName()"
+        />
+        <div
+          class="cursor-pointer bg-gray-100 hover:bg-gray-200 py-3 rounded-lg border border-gray-300"
+        >
+          <span id="fileLabel" class="text-gray-500">Select Image</span>
+        </div>
+      </label>
 
+      <!-- Process Button -->
       <button
         id="processBtn"
         onclick="uploadImage()"
-        class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg w-full mb-4 transition"
       >
         Process Image
       </button>
 
-      <p id="status" class="mt-4 text-sm text-gray-500"></p>
+      <!-- Status -->
+      <p id="status" class="text-sm text-gray-500 mb-4"></p>
 
-      <img id="preview" class="mt-4 rounded-lg shadow" />
+      <!-- Preview -->
+      <div class="mb-4">
+        <img id="preview" class="mx-auto rounded-lg shadow-lg max-h-80" />
+      </div>
 
+      <!-- Download -->
       <a
         id="downloadLink"
-        class="hidden mt-4 inline-block bg-green-500 text-white px-4 py-2 rounded-lg"
+        class="hidden inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg w-full transition"
       >
         Download Image
       </a>
+
+      <!-- Features -->
+      <div class="mt-6 text-left text-sm text-gray-600 space-y-1">
+        <p>✔ Resize to Amazon standard</p>
+        <p>✔ Center your product automatically</p>
+        <p>✔ White background every time</p>
+      </div>
     </div>
 
     <script>
+      // Show selected file name
+      function showFileName() {
+        const fileInput = document.getElementById("fileInput");
+        const fileLabel = document.getElementById("fileLabel");
+        if (fileInput.files.length > 0) {
+          fileLabel.textContent = fileInput.files[0].name;
+        }
+      }
+
+      // Upload & process
       async function uploadImage() {
         const fileInput = document.getElementById("fileInput");
         const file = fileInput.files[0];
         const status = document.getElementById("status");
-        const btn = document.getElementById("processBtn"); // 👈 ADD THIS
+        const btn = document.getElementById("processBtn");
 
         if (!file) {
           alert("Please select a file");
           return;
         }
 
-        // 👇 DISABLE BUTTON
         btn.disabled = true;
         btn.innerText = "Processing...";
-
         status.innerText = "Processing...";
 
         const formData = new FormData();
@@ -73,7 +120,6 @@
           status.innerText = "Something went wrong ❌";
         }
 
-        // 👇 ENABLE BUTTON AGAIN
         btn.disabled = false;
         btn.innerText = "Process Image";
       }
