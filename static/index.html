@@ -1444,7 +1444,11 @@
         updateAnonUI();
 
         if (!window.Clerk) return;
-        await Clerk.load();
+        await Clerk.load({
+          appearance: {},
+          signInUrl: undefined,
+          signUpUrl: undefined,
+        });
         clerkReady = true;
 
         // Run immediately on load + every time auth state changes
@@ -1471,7 +1475,14 @@
           showToast("Auth not loaded. Refresh the page.", "⚠️");
           return;
         }
-        Clerk.load().then(() => Clerk.openSignIn());
+        Clerk.load({ appearance: {} }).then(() => {
+          try {
+            Clerk.openSignIn();
+          } catch (e) {
+            // Fallback: redirect to Clerk hosted page if modal fails
+            window.location.href = "https://accounts.clerk.dev/sign-in";
+          }
+        });
       }
 
       /* ── DROPZONE ── */
