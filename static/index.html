@@ -1441,20 +1441,29 @@
       let clerkReady = false;
 
       window.addEventListener("load", async () => {
-        // Render anon counter immediately
         updateAnonUI();
 
         if (!window.Clerk) return;
         await Clerk.load();
         clerkReady = true;
 
-        const authDiv = document.getElementById("auth");
-        if (Clerk.user) {
-          // Logged in: swap button for profile avatar & hide anon counter
-          authDiv.innerHTML = '<div id="clerk-user-btn"></div>';
-          Clerk.mountUserButton(document.getElementById("clerk-user-btn"));
-          document.getElementById("anonCounter").style.display = "none";
-        }
+        // Run immediately on load + every time auth state changes
+        Clerk.addListener(({ user }) => {
+          const authDiv = document.getElementById("auth");
+
+          if (user) {
+            // ✅ Logged in — show profile avatar, hide anon counter
+            authDiv.innerHTML = '<div id="clerk-user-btn"></div>';
+            Clerk.mountUserButton(document.getElementById("clerk-user-btn"));
+            document.getElementById("anonCounter").style.display = "none";
+          } else {
+            // ✅ Logged out — restore login button, show anon counter
+            authDiv.innerHTML =
+              '<button class="btn-primary" onclick="openAuth()">Login / Sign Up</button>';
+            document.getElementById("anonCounter").style.display = "flex";
+            updateAnonUI();
+          }
+        });
       });
 
       function openAuth() {
