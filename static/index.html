@@ -12,8 +12,8 @@
       rel="stylesheet"
     />
 
+    <!-- Clerk: async REMOVED so UI components load fully before page runs -->
     <script
-      async
       crossorigin="anonymous"
       data-clerk-publishable-key="pk_test_c291bmQtdHJlZWZyb2ctNy5jbGVyay5hY2NvdW50cy5kZXYk"
       src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"
@@ -393,7 +393,7 @@
         letter-spacing: -0.02em;
       }
 
-      /* ── ANON COUNTER BADGE ── */
+      /* ── ANON COUNTER ── */
       .anon-counter {
         display: flex;
         align-items: center;
@@ -404,15 +404,17 @@
         padding: 10px 14px;
         font-size: 0.82rem;
         color: var(--text-muted);
+        transition: all 0.3s;
       }
       .anon-counter.warning {
         border-color: #f59e0b;
         background: #fffbeb;
         color: #92400e;
       }
-      .anon-counter.warning [data-theme="dark"] {
+      [data-theme="dark"] .anon-counter.warning {
         background: #1c1600;
         color: #fcd34d;
+        border-color: #f59e0b;
       }
       .anon-dots {
         display: flex;
@@ -875,7 +877,6 @@
       .modal-overlay.open {
         display: flex;
       }
-
       .modal {
         background: var(--bg-card);
         border: 1px solid var(--border);
@@ -897,12 +898,10 @@
           transform: translateY(0) scale(1);
         }
       }
-
       .modal-emoji {
         font-size: 2.8rem;
         margin-bottom: 16px;
       }
-
       .modal h3 {
         font-size: 1.4rem;
         font-weight: 800;
@@ -918,7 +917,6 @@
       .modal p strong {
         color: var(--text);
       }
-
       .modal-perks {
         display: flex;
         flex-direction: column;
@@ -940,7 +938,6 @@
         font-size: 1rem;
         flex-shrink: 0;
       }
-
       .modal-cta {
         width: 100%;
         padding: 14px;
@@ -958,7 +955,6 @@
         background: var(--accent-h);
         transform: translateY(-1px);
       }
-
       .modal-dismiss {
         background: transparent;
         border: none;
@@ -991,7 +987,7 @@
   </head>
 
   <body>
-    <!-- ── NAVBAR ── -->
+    <!-- NAVBAR -->
     <nav class="nav">
       <div class="nav-inner">
         <div class="logo"><span class="logo-dot"></span>Pixify</div>
@@ -1018,7 +1014,7 @@
       </div>
     </nav>
 
-    <!-- ── HERO ── -->
+    <!-- HERO -->
     <section class="hero reveal">
       <div class="hero-badge">
         <span></span>Free to start — no credit card needed
@@ -1048,7 +1044,7 @@
       </div>
     </section>
 
-    <!-- ── UPLOAD ── -->
+    <!-- UPLOAD -->
     <section class="section" id="upload-section">
       <div class="section-inner">
         <div class="reveal">
@@ -1058,20 +1054,15 @@
             Drop any product photo and get an Amazon-ready image instantly.
           </p>
         </div>
-
         <div class="upload-grid">
-          <!-- Controls -->
           <div class="card upload-card reveal">
             <h3>Upload Image</h3>
-
             <div class="formats">
               <span class="format-chip">PNG</span>
               <span class="format-chip">JPEG</span>
               <span class="format-chip">WebP</span>
               <span class="format-chip">GIF</span>
             </div>
-
-            <!-- Anonymous usage counter (hidden when logged in) -->
             <div class="anon-counter" id="anonCounter">
               <div class="anon-dots">
                 <div class="anon-dot" id="dot0"></div>
@@ -1082,7 +1073,6 @@
                 >3 free tries remaining — no sign up needed</span
               >
             </div>
-
             <div class="dropzone" id="dropzone">
               <input
                 type="file"
@@ -1098,27 +1088,23 @@
                 >
               </p>
             </div>
-
             <button class="process-btn" id="processBtn" onclick="uploadImage()">
               Process Image →
             </button>
-
             <div class="status-bar">
               <div class="spinner" id="spinner"></div>
               <span id="status"></span>
             </div>
           </div>
-
-          <!-- Preview -->
           <div class="card preview-card reveal">
             <div class="preview-empty" id="previewEmpty">
               <div class="preview-empty-icon">✨</div>
               <p>Your processed image<br />will appear here</p>
             </div>
             <img id="preview" alt="Processed" />
-            <a id="downloadLink" class="download-btn">
-              ↓ Download <span id="fileType"></span>
-            </a>
+            <a id="downloadLink" class="download-btn"
+              >↓ Download <span id="fileType"></span
+            ></a>
           </div>
         </div>
       </div>
@@ -1126,7 +1112,7 @@
 
     <div class="divider"></div>
 
-    <!-- ── FEATURES ── -->
+    <!-- FEATURES -->
     <section class="section features-section">
       <div class="section-inner">
         <div class="reveal">
@@ -1188,7 +1174,7 @@
       </div>
     </section>
 
-    <!-- ── PRICING ── -->
+    <!-- PRICING -->
     <section class="section" id="pricing">
       <div class="section-inner">
         <div class="reveal">
@@ -1244,7 +1230,7 @@
 
     <div class="divider"></div>
 
-    <!-- ── FAQ ── -->
+    <!-- FAQ -->
     <section class="section" id="faq">
       <div class="section-inner">
         <div class="reveal">
@@ -1309,7 +1295,7 @@
       </div>
     </section>
 
-    <!-- ── FOOTER ── -->
+    <!-- FOOTER -->
     <footer>
       <div class="footer-inner">
         <div class="footer-logo"><span class="logo-dot"></span>Pixify</div>
@@ -1323,13 +1309,13 @@
       </div>
     </footer>
 
-    <!-- ── TOAST ── -->
+    <!-- TOAST -->
     <div class="toast" id="toast">
       <span class="toast-icon" id="toastIcon"></span>
       <span id="toastMsg"></span>
     </div>
 
-    <!-- ── SIGNUP MODAL ── -->
+    <!-- SIGNUP MODAL -->
     <div class="modal-overlay" id="signupModal">
       <div class="modal">
         <div class="modal-emoji">🎉</div>
@@ -1375,7 +1361,6 @@
       /* ── THEME ── */
       const saved = localStorage.getItem("theme") || "light";
       applyTheme(saved);
-
       function applyTheme(t) {
         document.documentElement.setAttribute("data-theme", t);
         document.getElementById("themeBtn").textContent =
@@ -1390,7 +1375,7 @@
         );
       }
 
-      /* ── ANON COUNT HELPERS ── */
+      /* ── ANON HELPERS ── */
       function getAnonCount() {
         return parseInt(localStorage.getItem(STORAGE_KEY) || "0");
       }
@@ -1402,14 +1387,11 @@
         const remain = ANON_LIMIT - count;
         const counter = document.getElementById("anonCounter");
         const label = document.getElementById("anonLabel");
-
-        // Update dots
         for (let i = 0; i < ANON_LIMIT; i++) {
-          const dot = document.getElementById(`dot${i}`);
-          // dots fill left-to-right as tries are used
-          dot.classList.toggle("used", i < count);
+          document
+            .getElementById(`dot${i}`)
+            .classList.toggle("used", i < count);
         }
-
         if (remain <= 0) {
           label.textContent = "Free tries used — sign up to continue";
           counter.classList.add("warning");
@@ -1429,8 +1411,6 @@
       function closeModal() {
         document.getElementById("signupModal").classList.remove("open");
       }
-
-      // Close modal on overlay click
       document
         .getElementById("signupModal")
         .addEventListener("click", function (e) {
@@ -1444,24 +1424,19 @@
         updateAnonUI();
 
         if (!window.Clerk) return;
-        await Clerk.load({
-          appearance: {},
-          signInUrl: undefined,
-          signUpUrl: undefined,
-        });
+
+        // Load Clerk with appearance option — required for UI components (modals)
+        await Clerk.load({ appearance: {} });
         clerkReady = true;
 
-        // Run immediately on load + every time auth state changes
+        // React to auth state changes instantly (login, logout, page reload)
         Clerk.addListener(({ user }) => {
           const authDiv = document.getElementById("auth");
-
           if (user) {
-            // ✅ Logged in — show profile avatar, hide anon counter
             authDiv.innerHTML = '<div id="clerk-user-btn"></div>';
             Clerk.mountUserButton(document.getElementById("clerk-user-btn"));
             document.getElementById("anonCounter").style.display = "none";
           } else {
-            // ✅ Logged out — restore login button, show anon counter
             authDiv.innerHTML =
               '<button class="btn-primary" onclick="openAuth()">Login / Sign Up</button>';
             document.getElementById("anonCounter").style.display = "flex";
@@ -1479,8 +1454,10 @@
           try {
             Clerk.openSignIn();
           } catch (e) {
-            // Fallback: redirect to Clerk hosted page if modal fails
-            window.location.href = "https://accounts.clerk.dev/sign-in";
+            // Fallback: embed sign-in form in the auth div
+            const authDiv = document.getElementById("auth");
+            authDiv.innerHTML = '<div id="clerk-signin-embed"></div>';
+            Clerk.mountSignIn(document.getElementById("clerk-signin-embed"));
           }
         });
       }
@@ -1503,7 +1480,6 @@
           onFileSelect({ files: e.dataTransfer.files });
         }
       });
-
       function onFileSelect(input) {
         const file = input.files[0];
         if (file) document.getElementById("fileLabel").textContent = file.name;
@@ -1511,9 +1487,7 @@
 
       /* ── UPLOAD ── */
       async function uploadImage() {
-        const fileInput = document.getElementById("fileInput");
-        const file = fileInput.files[0];
-
+        const file = document.getElementById("fileInput").files[0];
         if (!file) {
           showToast("Please select an image first.", "📁");
           return;
@@ -1521,16 +1495,12 @@
 
         const isLoggedIn = clerkReady && Clerk.session;
 
-        // ── Anonymous limit gate ──────────────────────────────────
-        if (!isLoggedIn) {
-          const count = getAnonCount();
-          if (count >= ANON_LIMIT) {
-            openModal();
-            return;
-          }
+        // Anonymous limit gate
+        if (!isLoggedIn && getAnonCount() >= ANON_LIMIT) {
+          openModal();
+          return;
         }
 
-        // ── UI: start processing ──────────────────────────────────
         const btn = document.getElementById("processBtn");
         const spinner = document.getElementById("spinner");
         const status = document.getElementById("status");
@@ -1546,13 +1516,11 @@
         empty.style.display = "flex";
         dlLink.style.display = "none";
 
-        // ── Build request ─────────────────────────────────────────
         const formData = new FormData();
         formData.append("file", file);
         const headers = {};
-        if (isLoggedIn) {
+        if (isLoggedIn)
           headers["Authorization"] = `Bearer ${await Clerk.session.getToken()}`;
-        }
 
         try {
           const response = await fetch("/process/", {
@@ -1574,28 +1542,21 @@
           dlLink.download = `pixify-${Date.now()}.${ext}`;
           document.getElementById("fileType").textContent = ext.toUpperCase();
           dlLink.style.display = "block";
+          status.textContent = "";
 
-          // ── Count anonymous use & update UI ────────────────────
           if (!isLoggedIn) {
             incrementAnonCount();
             updateAnonUI();
             const remain = ANON_LIMIT - getAnonCount();
-            if (remain > 0) {
-              showToast(
-                `Done! ${remain} free ${remain === 1 ? "try" : "tries"} left.`,
-                "✅",
-              );
-            } else {
-              showToast(
-                "Last free try used. Sign up to continue — it's free!",
-                "⚠️",
-              );
-            }
+            showToast(
+              remain > 0
+                ? `Done! ${remain} free ${remain === 1 ? "try" : "tries"} left.`
+                : "Last free try used. Sign up to continue — it's free!",
+              remain > 0 ? "✅" : "⚠️",
+            );
           } else {
             showToast("Image processed successfully!", "✅");
           }
-
-          status.textContent = "";
         } catch (err) {
           status.textContent = "Something went wrong.";
           showToast(err.message || "Processing failed.", "❌");
