@@ -20,7 +20,7 @@
     ></script>
 
     <style>
-      /* ── TOKENS ──────────────────────────────────────────────────── */
+      /* ── TOKENS ── */
       :root {
         --bg: #f7f7f5;
         --bg-card: #ffffff;
@@ -44,7 +44,6 @@
         --radius-sm: 8px;
         --radius-lg: 20px;
       }
-
       [data-theme="dark"] {
         --bg: #0e0e0c;
         --bg-card: #171714;
@@ -73,7 +72,6 @@
       html {
         scroll-behavior: smooth;
       }
-
       body {
         font-family: "DM Sans", sans-serif;
         background: var(--bg);
@@ -84,7 +82,6 @@
           color 0.3s;
         -webkit-font-smoothing: antialiased;
       }
-
       h1,
       h2,
       h3,
@@ -174,13 +171,11 @@
           display: none;
         }
       }
-
       .nav-actions {
         display: flex;
         align-items: center;
         gap: 10px;
       }
-
       .btn-icon {
         width: 36px;
         height: 36px;
@@ -198,7 +193,6 @@
         color: var(--text);
         background: var(--bg-card);
       }
-
       .btn-primary {
         background: var(--accent);
         color: #fff;
@@ -282,7 +276,6 @@
         justify-content: center;
         flex-wrap: wrap;
       }
-
       .btn-lg {
         padding: 13px 28px;
         border-radius: var(--radius-sm);
@@ -309,7 +302,6 @@
         background: var(--bg-subtle);
         transform: translateY(-1px);
       }
-
       .hero-stats {
         display: flex;
         justify-content: center;
@@ -389,7 +381,6 @@
       .card:hover {
         box-shadow: var(--shadow-md);
       }
-
       .upload-card {
         padding: 36px;
         display: flex;
@@ -400,6 +391,42 @@
         font-size: 1.1rem;
         font-weight: 700;
         letter-spacing: -0.02em;
+      }
+
+      /* ── ANON COUNTER BADGE ── */
+      .anon-counter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+      }
+      .anon-counter.warning {
+        border-color: #f59e0b;
+        background: #fffbeb;
+        color: #92400e;
+      }
+      .anon-counter.warning [data-theme="dark"] {
+        background: #1c1600;
+        color: #fcd34d;
+      }
+      .anon-dots {
+        display: flex;
+        gap: 5px;
+      }
+      .anon-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+        transition: background 0.3s;
+      }
+      .anon-dot.used {
+        background: var(--border);
       }
 
       .dropzone {
@@ -532,7 +559,6 @@
         font-size: 0.875rem;
         line-height: 1.6;
       }
-
       #preview {
         max-height: 240px;
         border-radius: var(--radius);
@@ -575,7 +601,6 @@
           grid-template-columns: 1fr;
         }
       }
-
       .feature-card {
         padding: 28px;
       }
@@ -617,7 +642,6 @@
           grid-template-columns: 1fr;
         }
       }
-
       .pricing-card {
         padding: 32px;
         border-radius: var(--radius-lg);
@@ -640,7 +664,6 @@
       .pricing-card.featured .pricing-features li {
         color: rgba(255, 255, 255, 0.8);
       }
-
       .pricing-tag {
         font-size: 0.75rem;
         font-weight: 600;
@@ -697,7 +720,6 @@
       .cross {
         color: var(--border);
       }
-
       .plan-btn {
         width: 100%;
         padding: 12px;
@@ -838,6 +860,117 @@
         font-size: 1.1rem;
       }
 
+      /* ── SIGNUP MODAL ── */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-overlay.open {
+        display: flex;
+      }
+
+      .modal {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        padding: 48px 40px;
+        max-width: 420px;
+        width: 90%;
+        text-align: center;
+        animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @keyframes modalIn {
+        from {
+          opacity: 0;
+          transform: translateY(24px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .modal-emoji {
+        font-size: 2.8rem;
+        margin-bottom: 16px;
+      }
+
+      .modal h3 {
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 10px;
+      }
+      .modal p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.7;
+        margin-bottom: 28px;
+      }
+      .modal p strong {
+        color: var(--text);
+      }
+
+      .modal-perks {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 28px;
+        text-align: left;
+      }
+      .modal-perk {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        font-size: 0.875rem;
+      }
+      .modal-perk-icon {
+        font-size: 1rem;
+        flex-shrink: 0;
+      }
+
+      .modal-cta {
+        width: 100%;
+        padding: 14px;
+        background: var(--accent);
+        color: #fff;
+        border-radius: var(--radius-sm);
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        margin-bottom: 12px;
+      }
+      .modal-cta:hover {
+        background: var(--accent-h);
+        transform: translateY(-1px);
+      }
+
+      .modal-dismiss {
+        background: transparent;
+        border: none;
+        color: var(--text-muted);
+        font-size: 0.82rem;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .modal-dismiss:hover {
+        color: var(--text);
+      }
+
       /* ── REVEAL ── */
       .reveal {
         opacity: 0;
@@ -850,7 +983,6 @@
         opacity: 1;
         transform: translateY(0);
       }
-
       .divider {
         height: 1px;
         background: var(--border);
@@ -859,13 +991,10 @@
   </head>
 
   <body>
-    <!-- NAVBAR -->
+    <!-- ── NAVBAR ── -->
     <nav class="nav">
       <div class="nav-inner">
-        <div class="logo">
-          <span class="logo-dot"></span>
-          Pixify
-        </div>
+        <div class="logo"><span class="logo-dot"></span>Pixify</div>
         <ul class="nav-links">
           <li><a href="#upload-section">Product</a></li>
           <li><a href="#pricing">Pricing</a></li>
@@ -889,11 +1018,10 @@
       </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- ── HERO ── -->
     <section class="hero reveal">
       <div class="hero-badge">
-        <span></span>
-        Free to start — no credit card needed
+        <span></span>Free to start — no credit card needed
       </div>
       <h1>Amazon images,<br /><em>perfectly formatted</em></h1>
       <p class="hero-sub">
@@ -920,7 +1048,7 @@
       </div>
     </section>
 
-    <!-- UPLOAD -->
+    <!-- ── UPLOAD ── -->
     <section class="section" id="upload-section">
       <div class="section-inner">
         <div class="reveal">
@@ -932,14 +1060,29 @@
         </div>
 
         <div class="upload-grid">
+          <!-- Controls -->
           <div class="card upload-card reveal">
             <h3>Upload Image</h3>
+
             <div class="formats">
               <span class="format-chip">PNG</span>
               <span class="format-chip">JPEG</span>
               <span class="format-chip">WebP</span>
               <span class="format-chip">GIF</span>
             </div>
+
+            <!-- Anonymous usage counter (hidden when logged in) -->
+            <div class="anon-counter" id="anonCounter">
+              <div class="anon-dots">
+                <div class="anon-dot" id="dot0"></div>
+                <div class="anon-dot" id="dot1"></div>
+                <div class="anon-dot" id="dot2"></div>
+              </div>
+              <span id="anonLabel"
+                >3 free tries remaining — no sign up needed</span
+              >
+            </div>
+
             <div class="dropzone" id="dropzone">
               <input
                 type="file"
@@ -955,15 +1098,18 @@
                 >
               </p>
             </div>
+
             <button class="process-btn" id="processBtn" onclick="uploadImage()">
               Process Image →
             </button>
+
             <div class="status-bar">
               <div class="spinner" id="spinner"></div>
               <span id="status"></span>
             </div>
           </div>
 
+          <!-- Preview -->
           <div class="card preview-card reveal">
             <div class="preview-empty" id="previewEmpty">
               <div class="preview-empty-icon">✨</div>
@@ -980,7 +1126,7 @@
 
     <div class="divider"></div>
 
-    <!-- FEATURES -->
+    <!-- ── FEATURES ── -->
     <section class="section features-section">
       <div class="section-inner">
         <div class="reveal">
@@ -1042,7 +1188,7 @@
       </div>
     </section>
 
-    <!-- PRICING -->
+    <!-- ── PRICING ── -->
     <section class="section" id="pricing">
       <div class="section-inner">
         <div class="reveal">
@@ -1098,7 +1244,7 @@
 
     <div class="divider"></div>
 
-    <!-- FAQ -->
+    <!-- ── FAQ ── -->
     <section class="section" id="faq">
       <div class="section-inner">
         <div class="reveal">
@@ -1108,8 +1254,7 @@
         <div class="faq-list reveal">
           <div class="faq-item">
             <button class="faq-q" onclick="toggleFaq(this)">
-              What image formats are supported?
-              <i class="faq-chevron">↓</i>
+              What image formats are supported?<i class="faq-chevron">↓</i>
             </button>
             <div class="faq-a">
               PNG, JPEG, WebP, and GIF are supported as inputs. The processed
@@ -1119,19 +1264,17 @@
           </div>
           <div class="faq-item">
             <button class="faq-q" onclick="toggleFaq(this)">
-              Do I need to create an account?
-              <i class="faq-chevron">↓</i>
+              Do I need to create an account?<i class="faq-chevron">↓</i>
             </button>
             <div class="faq-a">
-              Yes — a free account is required to process images. This lets us
-              track your daily usage. Signing up takes under 30 seconds with
-              email or Google.
+              You get 3 free tries without signing up — no account needed. After
+              that, creating a free account gives you 5 images per day. Signing
+              up takes under 30 seconds.
             </div>
           </div>
           <div class="faq-item">
             <button class="faq-q" onclick="toggleFaq(this)">
-              Are my images stored anywhere?
-              <i class="faq-chevron">↓</i>
+              Are my images stored anywhere?<i class="faq-chevron">↓</i>
             </button>
             <div class="faq-a">
               No. Your images are processed in-memory on our servers and
@@ -1141,8 +1284,9 @@
           </div>
           <div class="faq-item">
             <button class="faq-q" onclick="toggleFaq(this)">
-              What exactly does the tool do to my image?
-              <i class="faq-chevron">↓</i>
+              What exactly does the tool do to my image?<i class="faq-chevron"
+                >↓</i
+              >
             </button>
             <div class="faq-a">
               It resizes your image to 1000×1000px while preserving aspect
@@ -1153,8 +1297,7 @@
           </div>
           <div class="faq-item">
             <button class="faq-q" onclick="toggleFaq(this)">
-              Can I cancel my subscription anytime?
-              <i class="faq-chevron">↓</i>
+              Can I cancel my subscription anytime?<i class="faq-chevron">↓</i>
             </button>
             <div class="faq-a">
               Yes, cancel anytime with no questions asked. You'll retain access
@@ -1166,13 +1309,10 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ── FOOTER ── -->
     <footer>
       <div class="footer-inner">
-        <div class="footer-logo">
-          <span class="logo-dot"></span>
-          Pixify
-        </div>
+        <div class="footer-logo"><span class="logo-dot"></span>Pixify</div>
         <div class="footer-links">
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
@@ -1183,13 +1323,55 @@
       </div>
     </footer>
 
-    <!-- TOAST -->
+    <!-- ── TOAST ── -->
     <div class="toast" id="toast">
       <span class="toast-icon" id="toastIcon"></span>
       <span id="toastMsg"></span>
     </div>
 
+    <!-- ── SIGNUP MODAL ── -->
+    <div class="modal-overlay" id="signupModal">
+      <div class="modal">
+        <div class="modal-emoji">🎉</div>
+        <h3>You've seen what Pixify can do</h3>
+        <p>
+          You've used your <strong>3 free tries</strong>. Create a free account
+          to keep going — takes 30 seconds.
+        </p>
+        <div class="modal-perks">
+          <div class="modal-perk">
+            <span class="modal-perk-icon">🖼️</span
+            ><span><strong>5 images per day</strong> — completely free</span>
+          </div>
+          <div class="modal-perk">
+            <span class="modal-perk-icon">⚡</span
+            ><span><strong>No credit card</strong> required</span>
+          </div>
+          <div class="modal-perk">
+            <span class="modal-perk-icon">🔒</span
+            ><span><strong>Google or email</strong> sign up</span>
+          </div>
+        </div>
+        <button
+          class="modal-cta"
+          onclick="
+            closeModal();
+            openAuth();
+          "
+        >
+          Create free account →
+        </button>
+        <button class="modal-dismiss" onclick="closeModal()">
+          Maybe later
+        </button>
+      </div>
+    </div>
+
     <script>
+      /* ── CONSTANTS ── */
+      const ANON_LIMIT = 3;
+      const STORAGE_KEY = "pixify_anon_count";
+
       /* ── THEME ── */
       const saved = localStorage.getItem("theme") || "light";
       applyTheme(saved);
@@ -1201,27 +1383,83 @@
         localStorage.setItem("theme", t);
       }
       function toggleTheme() {
-        const cur = document.documentElement.getAttribute("data-theme");
-        applyTheme(cur === "dark" ? "light" : "dark");
+        applyTheme(
+          document.documentElement.getAttribute("data-theme") === "dark"
+            ? "light"
+            : "dark",
+        );
       }
+
+      /* ── ANON COUNT HELPERS ── */
+      function getAnonCount() {
+        return parseInt(localStorage.getItem(STORAGE_KEY) || "0");
+      }
+      function incrementAnonCount() {
+        localStorage.setItem(STORAGE_KEY, getAnonCount() + 1);
+      }
+      function updateAnonUI() {
+        const count = getAnonCount();
+        const remain = ANON_LIMIT - count;
+        const counter = document.getElementById("anonCounter");
+        const label = document.getElementById("anonLabel");
+
+        // Update dots
+        for (let i = 0; i < ANON_LIMIT; i++) {
+          const dot = document.getElementById(`dot${i}`);
+          // dots fill left-to-right as tries are used
+          dot.classList.toggle("used", i < count);
+        }
+
+        if (remain <= 0) {
+          label.textContent = "Free tries used — sign up to continue";
+          counter.classList.add("warning");
+        } else if (remain === 1) {
+          label.textContent = "1 free try remaining";
+          counter.classList.add("warning");
+        } else {
+          label.textContent = `${remain} free tries remaining — no sign up needed`;
+          counter.classList.remove("warning");
+        }
+      }
+
+      /* ── MODAL ── */
+      function openModal() {
+        document.getElementById("signupModal").classList.add("open");
+      }
+      function closeModal() {
+        document.getElementById("signupModal").classList.remove("open");
+      }
+
+      // Close modal on overlay click
+      document
+        .getElementById("signupModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeModal();
+        });
 
       /* ── CLERK ── */
       let clerkReady = false;
 
       window.addEventListener("load", async () => {
+        // Render anon counter immediately
+        updateAnonUI();
+
         if (!window.Clerk) return;
         await Clerk.load();
         clerkReady = true;
+
         const authDiv = document.getElementById("auth");
         if (Clerk.user) {
+          // Logged in: swap button for profile avatar & hide anon counter
           authDiv.innerHTML = '<div id="clerk-user-btn"></div>';
           Clerk.mountUserButton(document.getElementById("clerk-user-btn"));
+          document.getElementById("anonCounter").style.display = "none";
         }
       });
 
       function openAuth() {
         if (!window.Clerk) {
-          showToast("Auth not loaded. Refresh page.", "⚠️");
+          showToast("Auth not loaded. Refresh the page.", "⚠️");
           return;
         }
         Clerk.load().then(() => Clerk.openSignIn());
@@ -1255,17 +1493,24 @@
       async function uploadImage() {
         const fileInput = document.getElementById("fileInput");
         const file = fileInput.files[0];
+
         if (!file) {
           showToast("Please select an image first.", "📁");
           return;
         }
 
-        if (!clerkReady || !Clerk.session) {
-          showToast("Please log in to process images.", "🔒");
-          openAuth();
-          return;
+        const isLoggedIn = clerkReady && Clerk.session;
+
+        // ── Anonymous limit gate ──────────────────────────────────
+        if (!isLoggedIn) {
+          const count = getAnonCount();
+          if (count >= ANON_LIMIT) {
+            openModal();
+            return;
+          }
         }
 
+        // ── UI: start processing ──────────────────────────────────
         const btn = document.getElementById("processBtn");
         const spinner = document.getElementById("spinner");
         const status = document.getElementById("status");
@@ -1281,15 +1526,19 @@
         empty.style.display = "flex";
         dlLink.style.display = "none";
 
+        // ── Build request ─────────────────────────────────────────
         const formData = new FormData();
         formData.append("file", file);
+        const headers = {};
+        if (isLoggedIn) {
+          headers["Authorization"] = `Bearer ${await Clerk.session.getToken()}`;
+        }
 
         try {
-          const token = await Clerk.session.getToken();
           const response = await fetch("/process/", {
             method: "POST",
             body: formData,
-            headers: { Authorization: `Bearer ${token}` },
+            headers,
           });
           if (!response.ok) throw new Error(`Server error ${response.status}`);
 
@@ -1306,8 +1555,27 @@
           document.getElementById("fileType").textContent = ext.toUpperCase();
           dlLink.style.display = "block";
 
+          // ── Count anonymous use & update UI ────────────────────
+          if (!isLoggedIn) {
+            incrementAnonCount();
+            updateAnonUI();
+            const remain = ANON_LIMIT - getAnonCount();
+            if (remain > 0) {
+              showToast(
+                `Done! ${remain} free ${remain === 1 ? "try" : "tries"} left.`,
+                "✅",
+              );
+            } else {
+              showToast(
+                "Last free try used. Sign up to continue — it's free!",
+                "⚠️",
+              );
+            }
+          } else {
+            showToast("Image processed successfully!", "✅");
+          }
+
           status.textContent = "";
-          showToast("Image processed successfully!", "✅");
         } catch (err) {
           status.textContent = "Something went wrong.";
           showToast(err.message || "Processing failed.", "❌");

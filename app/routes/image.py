@@ -8,11 +8,9 @@ router = APIRouter()
 @router.post("/process/")
 async def process_image(request: Request, file: UploadFile = File(...)):
     try:
-        # ✅ Verify Clerk token — raises 401 if not logged in
+        # Auth is optional — returns None if no token
         user_id = get_current_user(request)
-
         result = await process_image_logic(file)
         return result
-
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=500)
